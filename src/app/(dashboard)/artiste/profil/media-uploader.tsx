@@ -85,7 +85,7 @@ export function MediaUploader({ initialMedia }: { initialMedia: Media[] }) {
         <label htmlFor="media-input">
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             disabled={uploading}
             onClick={() => fileInputRef.current?.click()}
           >

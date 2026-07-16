@@ -1,18 +1,19 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { SignOutButton } from "@/components/layout/sign-out-button";
+import { buttonClass } from "@/components/ui/button";
 
 export async function Navbar() {
   const session = await auth();
   const role = session?.user?.role;
 
   return (
-    <header className="border-b border-border bg-card">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-        <Link href="/" className="text-lg font-extrabold text-primary">
+    <header className="nav border-b border-border">
+      <div className="wrap" style={{ display: "flex", alignItems: "center", width: "100%", gap: "var(--space-4)" }}>
+        <Link href="/" className="nav-brand">
           Épat&apos;Ehpad
         </Link>
-        <nav className="flex items-center gap-5 text-sm font-medium text-foreground">
+        <nav className="flex items-center gap-5">
           {role === "EHPAD" && (
             <>
               <Link href="/ehpad/artistes">Annuaire</Link>
@@ -31,10 +32,7 @@ export async function Navbar() {
           ) : (
             <>
               <Link href="/connexion">Connexion</Link>
-              <Link
-                href="/inscription"
-                className="rounded-lg bg-primary px-4 py-2 text-primary-foreground"
-              >
+              <Link href="/inscription" className={buttonClass("primary", "sm")}>
                 Inscription
               </Link>
             </>

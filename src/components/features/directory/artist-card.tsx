@@ -8,9 +8,9 @@ export function ArtistCard({ artist }: { artist: ArtistDirectoryEntry }) {
   return (
     <Link
       href={`/ehpad/artistes/${artist.id}`}
-      className="flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-md"
+      className="flex flex-col overflow-hidden rounded-xl border border-border bg-card elev-sm transition-transform hover:-translate-y-1 hover:shadow-md"
     >
-      <div className="relative aspect-video bg-accent">
+      <div className="relative aspect-video bg-[var(--color-accent-100)]">
         {artist.coverPhotoUrl && (
           <Image
             src={artist.coverPhotoUrl}

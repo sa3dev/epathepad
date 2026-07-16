@@ -28,7 +28,7 @@ export default async function EhpadRequestsPage() {
               </div>
               <p className="text-sm text-foreground">{request.message}</p>
               {request.artistReply && (
-                <p className="rounded-lg bg-accent p-3 text-sm text-accent-foreground">
+                <p className="rounded-lg bg-[var(--color-accent-100)] p-3 text-sm text-[var(--color-accent-800)]">
                   Réponse de l&apos;artiste : {request.artistReply}
                 </p>
               )}

@@ -1,23 +1,19 @@
 import type { HTMLAttributes } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const badgeVariants = cva("inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold", {
-  variants: {
-    variant: {
-      default: "bg-accent text-accent-foreground",
-      success: "bg-secondary text-secondary-foreground",
-      pending: "bg-primary/15 text-primary",
-      destructive: "bg-destructive/15 text-destructive",
-    },
-  },
-  defaultVariants: { variant: "default" },
-});
+export type BadgeVariant = "default" | "success" | "pending" | "destructive";
+
+const VARIANT_CLASS: Record<BadgeVariant, string> = {
+  default: "tag-neutral",
+  success: "tag-accent-2",
+  pending: "tag-accent",
+  destructive: "tag-destructive",
+};
 
 export function Badge({
   className,
-  variant,
+  variant = "default",
   ...props
-}: HTMLAttributes<HTMLSpanElement> & VariantProps<typeof badgeVariants>) {
-  return <span className={cn(badgeVariants({ variant }), className)} {...props} />;
+}: HTMLAttributes<HTMLSpanElement> & { variant?: BadgeVariant }) {
+  return <span className={cn("tag", VARIANT_CLASS[variant], className)} {...props} />;
 }

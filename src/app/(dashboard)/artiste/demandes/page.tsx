@@ -30,7 +30,7 @@ export default async function ArtistRequestsPage() {
               {request.status === "PENDING" ? (
                 <RespondForm requestId={request.id} />
               ) : (
-                <p className="rounded-lg bg-accent p-3 text-sm text-accent-foreground">
+                <p className="rounded-lg bg-[var(--color-accent-100)] p-3 text-sm text-[var(--color-accent-800)]">
                   {request.artistReply
                     ? `Votre réponse : ${request.artistReply}`
                     : request.status === "ACCEPTED"

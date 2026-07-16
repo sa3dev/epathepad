@@ -1,69 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
+/* ══════════════════════════════════════════════════════════════════════════
+   Organic — design tokens. Source of truth for the site's look; retune here.
+   ══════════════════════════════════════════════════════════════════════ */
 :root {
-  /* Warm, reassuring palette — soft ivory background, terracotta accent, sage for
-     positive/success states. Placeholder for the dedicated visual-design pass. */
-  --background: #fbf7f0;
-  --foreground: #3a322a;
-  --muted: #a69b8d;
-  --muted-foreground: #6b6155;
-  --border: #e8dfd3;
-  --card: #ffffff;
+  --color-bg: #f5ead8;
+  --color-surface: #ebddc5;
+  --color-text: #201e1d;
+  --color-accent: #c67139;
+  --color-accent-2: #7a8a5e;
+  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
 
-  --primary: #d97757;
-  --primary-foreground: #ffffff;
-  --secondary: #8fa998;
-  --secondary-foreground: #1f2f27;
-  --accent: #f0e4d4;
-  --accent-foreground: #3a322a;
-  --destructive: #c0533f;
-  --destructive-foreground: #ffffff;
+  --color-neutral-100: #f9f4ed;
+  --color-neutral-200: #eee7db;
+  --color-neutral-300: #dcd3c4;
+  --color-neutral-400: #c0b6a5;
+  --color-neutral-500: #a19786;
+  --color-neutral-600: #82796a;
+  --color-neutral-700: #645c50;
+  --color-neutral-800: #474238;
+  --color-neutral-900: #2e2b25;
 
-  --radius: 0.875rem;
+  --color-accent-100: #fff2eb;
+  --color-accent-200: #ffe1d0;
+  --color-accent-300: #ffc6a5;
+  --color-accent-400: #f6a06b;
+  --color-accent-500: #d67f48;
+  --color-accent-600: #b2622d;
+  --color-accent-700: #8c491a;
+  --color-accent-800: #643312;
+  --color-accent-900: #402310;
+
+  --color-accent-2-100: #f0fae1;
+  --color-accent-2-200: #e1eecc;
+  --color-accent-2-300: #ccdbb2;
+  --color-accent-2-400: #aebf92;
+  --color-accent-2-500: #8fa073;
+  --color-accent-2-600: #728157;
+  --color-accent-2-700: #56633f;
+  --color-accent-2-800: #3d472b;
+  --color-accent-2-900: #272e1b;
+
+  /* Not part of the supplied palette — a warm brick-red kept in the same family
+     for the one state Organic doesn't cover (destructive actions/status). */
+  --color-destructive: #b3402c;
+  --color-destructive-hover: #96331f;
+  --color-destructive-foreground: #fdf6f0;
+  --color-destructive-100: #fbe4de;
+  --color-destructive-800: #7a2818;
+
+  --font-heading: "Caprasimo", system-ui, sans-serif;
+  --font-heading-weight: 400;
+  --font-body: "Figtree", system-ui, sans-serif;
+
+  --space-1: 4.4px;
+  --space-2: 8.8px;
+  --space-3: 13.2px;
+  --space-4: 17.6px;
+  --space-6: 26.4px;
+  --space-8: 35.2px;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2e2b25 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2e2b25 22%, transparent);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #201b15;
-    --foreground: #f3ece1;
-    --muted: #5c5347;
-    --muted-foreground: #b8ac9c;
-    --border: #3a3126;
-    --card: #2a231b;
-
-    --primary: #e08d6d;
-    --primary-foreground: #201b15;
-    --secondary: #7c9a89;
-    --secondary-foreground: #f3ece1;
-    --accent: #372e23;
-    --accent-foreground: #f3ece1;
-    --destructive: #d97060;
-    --destructive-foreground: #201b15;
-  }
-}
-
+/* Bridges our own semantic Tailwind utility names (foreground/card/border/…) to
+   the Organic tokens above, so existing `text-foreground`/`bg-card`/`rounded-lg`
+   usages across the app pick up the new palette without editing every call site.
+   Never bridges "accent" itself — that name is now Organic's brand color, not
+   our old "soft neutral chip" meaning, so those few spots are fixed directly. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
-  --color-card: var(--card);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --radius-md: calc(var(--radius) - 0.25rem);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 0.25rem);
-  --font-sans: var(--font-nunito);
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --color-muted-foreground: color-mix(in srgb, var(--color-text) 55%, transparent);
+  --color-border: var(--color-divider);
+  --color-card: var(--color-surface);
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: var(--color-bg);
+  --color-secondary: var(--color-accent-2);
+  --color-secondary-foreground: var(--color-bg);
+  --color-destructive: var(--color-destructive);
+  --color-destructive-foreground: var(--color-destructive-foreground);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: calc(var(--radius-lg) + 6px);
+  --font-sans: var(--font-body);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
 }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+
+.washed { filter: saturate(0.6) contrast(0.85) brightness(1.1) opacity(0.94); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Base — reset + typography. Unlayered on purpose: this must win over any
+   Tailwind utility (e.g. font-extrabold on a heading) without needing !important,
+   since Tailwind v4's utilities live in a named layer and unlayered rules always
+   take priority over layered ones regardless of specificity.
+   ══════════════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-size: 15px; line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+figcaption { font-size: 11px; margin-top: var(--space-1); color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+.hr { height: 1px; border: 0; margin: var(--space-4) 0; background: var(--color-divider); }
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text);
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); }
+.btn-primary:hover { background: var(--color-accent-600); box-shadow: var(--shadow-md); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn-destructive { background: var(--color-destructive); color: var(--color-destructive-foreground); }
+.btn-destructive:hover { background: var(--color-destructive-hover); box-shadow: var(--shadow-md); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-sm { padding: var(--space-1) var(--space-3); font-size: 13px; }
+.btn-lg { padding: var(--space-3) calc(var(--space-4) * 1.4); font-size: 16px; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.field-label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); background: var(--color-surface);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 1.2; }
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — */
+.tag { display: inline-flex; align-items: center; font-size: 11px; letter-spacing: 0.02em; padding: 3px 10px; }
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+.tag-destructive { background: var(--color-destructive-100); color: var(--color-destructive-800); }
+
+/* — navigation — */
+.nav { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-4); }
+.nav-brand { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 18px; margin-right: auto; }
+.nav a { color: inherit; text-decoration: none; font-size: 14px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — rounded frame: everything softens, small controls go pill — */
+.card, .dialog { border-radius: calc(var(--radius-lg) * 1.15); }
+.btn, .tag, .input { border-radius: 999px; }
+.input { padding-inline: 14px; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Marketing page — hero/section layout helpers and scroll/float animations.
+   ══════════════════════════════════════════════════════════════════════ */
+.wrap { max-width: 1200px; margin: 0 auto; }
+.marketing-section { padding: var(--space-8) var(--space-6); }
+
+.stripe {
+  background: repeating-linear-gradient(135deg, var(--color-neutral-300) 0px, var(--color-neutral-300) 2px, var(--color-neutral-200) 2px, var(--color-neutral-200) 14px);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-size: 11px; letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  text-transform: uppercase;
+  border-radius: var(--radius-lg);
+}
+
+.blob {
+  position: absolute; border-radius: 50%; background: var(--color-accent-2-200); z-index: -1;
+  animation: floaty 7s ease-in-out infinite;
+}
+
+.step-badge {
+  width: 56px; height: 56px; border-radius: 50%; background: var(--color-accent-100);
+  color: var(--color-accent-700); font-family: var(--font-heading); font-size: 22px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-3);
+  transition: transform 0.25s ease;
+}
+.step:hover .step-badge { transform: scale(1.08) rotate(-4deg); }
+
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal-stagger.is-visible > * { animation: fadeUp 0.6s ease both; }
+.reveal-stagger.is-visible > *:nth-child(1) { animation-delay: 0.05s; }
+.reveal-stagger.is-visible > *:nth-child(2) { animation-delay: 0.15s; }
+.reveal-stagger.is-visible > *:nth-child(3) { animation-delay: 0.25s; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+.hero-title, .hero-sub, .hero-ctas {
+  animation: fadeUp 0.8s ease both;
+}
+.hero-sub { animation-delay: 0.12s; }
+.hero-ctas { animation-delay: 0.24s; }

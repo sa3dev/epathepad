@@ -33,7 +33,7 @@ export function RespondForm({ requestId }: { requestId: string }) {
         </Button>
         <Button
           size="sm"
-          variant="outline"
+          variant="destructive"
           disabled={pending !== null}
           onClick={() => respond("DECLINED")}
         >

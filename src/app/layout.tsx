@@ -1,14 +1,6 @@
 import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
 import { Providers } from "@/components/providers";
 import "./globals.css";
-
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Épat'Ehpad",
@@ -22,12 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${nunito.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">
+    <html lang="fr" className="h-full antialiased">
+      <body className="min-h-full flex flex-col">
         <Providers>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <div className="flex flex-1 flex-col">{children}</div>
         </Providers>
       </body>
     </html>

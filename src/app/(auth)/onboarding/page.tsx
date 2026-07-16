@@ -40,7 +40,7 @@ export default function OnboardingPage() {
           disabled={pending !== null}
           onClick={() => choose("EHPAD")}
           className={cn(
-            "rounded-lg border border-border px-4 py-4 text-left font-semibold hover:bg-accent",
+            "rounded-lg border border-border px-4 py-4 text-left font-semibold hover:bg-[var(--color-accent-100)]",
             pending === "EHPAD" && "opacity-60",
           )}
         >
@@ -51,7 +51,7 @@ export default function OnboardingPage() {
           disabled={pending !== null}
           onClick={() => choose("ARTIST")}
           className={cn(
-            "rounded-lg border border-border px-4 py-4 text-left font-semibold hover:bg-accent",
+            "rounded-lg border border-border px-4 py-4 text-left font-semibold hover:bg-[var(--color-accent-100)]",
             pending === "ARTIST" && "opacity-60",
           )}
         >
