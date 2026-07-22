@@ -4,15 +4,23 @@ import bcrypt from "bcryptjs";
 import { registerSchema } from "@/lib/validations/auth";
 import { getUserByEmail, createUser, setUserRole } from "@/lib/queries/users";
 import { signIn } from "@/lib/auth";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export interface RegisterState {
   error?: string;
 }
 
+const TOO_MANY_ATTEMPTS = "Trop de tentatives. Réessayez dans quelques minutes.";
+
 export async function registerAction(
   _prevState: RegisterState,
   formData: FormData,
 ): Promise<RegisterState> {
+  const ip = await getClientIp();
+  if (!checkRateLimit(`register:${ip}`, 5, 60 * 60 * 1000)) {
+    return { error: TOO_MANY_ATTEMPTS };
+  }
+
   const parsed = registerSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),

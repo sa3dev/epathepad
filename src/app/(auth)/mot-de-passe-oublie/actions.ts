@@ -5,6 +5,7 @@ import { forgotPasswordSchema } from "@/lib/validations/auth";
 import { getUserByEmail } from "@/lib/queries/users";
 import { createPasswordResetToken } from "@/lib/queries/password-reset-tokens";
 import { sendPasswordResetEmail } from "@/lib/email";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export interface ForgotPasswordState {
   error?: string;
@@ -20,6 +21,16 @@ export async function requestPasswordResetAction(
   const parsed = forgotPasswordSchema.safeParse({ email: formData.get("email") });
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "Adresse email invalide" };
+  }
+
+  // Checked (and consumed) before the user lookup, and keyed on the submitted
+  // email regardless of whether an account exists — otherwise the rate-limit
+  // error itself would leak which emails are registered.
+  const ip = await getClientIp();
+  const withinIpLimit = checkRateLimit(`forgot-password:ip:${ip}`, 10, 60 * 60 * 1000);
+  const withinEmailLimit = checkRateLimit(`forgot-password:email:${parsed.data.email}`, 3, 60 * 60 * 1000);
+  if (!withinIpLimit || !withinEmailLimit) {
+    return { success: true };
   }
 
   const user = await getUserByEmail(parsed.data.email);
