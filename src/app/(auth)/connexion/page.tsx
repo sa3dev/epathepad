@@ -74,6 +74,9 @@ export default function ConnexionPage() {
           <Button type="submit" disabled={passwordPending} className="mt-2">
             {passwordPending ? "Connexion…" : "Se connecter"}
           </Button>
+          <Link href="/mot-de-passe-oublie" className="text-sm text-muted-foreground">
+            Mot de passe oublié ?
+          </Link>
         </form>
       ) : (
         <form action={magicLinkAction} className="flex flex-col gap-4">

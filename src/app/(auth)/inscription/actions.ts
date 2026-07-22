@@ -18,6 +18,7 @@ export async function registerAction(
     email: formData.get("email"),
     password: formData.get("password"),
     role: formData.get("role"),
+    acceptTerms: formData.get("acceptTerms"),
   });
 
   if (!parsed.success) {

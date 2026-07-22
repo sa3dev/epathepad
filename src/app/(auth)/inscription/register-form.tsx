@@ -75,6 +75,20 @@ export function RegisterForm({ initialRole }: { initialRole: "EHPAD" | "ARTIST" 
           />
         </FormField>
 
+        <label className="flex items-start gap-2 text-sm text-muted-foreground">
+          <input type="checkbox" name="acceptTerms" required className="mt-1" />
+          <span>
+            J&apos;accepte les{" "}
+            <Link href="/cgu" className="font-semibold text-primary" target="_blank">
+              CGU
+            </Link>{" "}
+            et la{" "}
+            <Link href="/confidentialite" className="font-semibold text-primary" target="_blank">
+              politique de confidentialité
+            </Link>
+          </span>
+        </label>
+
         {state.error && <p className="text-sm text-destructive">{state.error}</p>}
 
         <Button type="submit" disabled={isPending} className="mt-2">

@@ -211,9 +211,10 @@ export default async function HomePage() {
             Épat&apos;Ehpad
           </span>
           <div className="flex gap-4 text-sm">
-            <a href="#">Mentions légales</a>
-            <a href="#">Confidentialité</a>
-            <a href="#">Contact</a>
+            <Link href="/mentions-legales">Mentions légales</Link>
+            <Link href="/cgu">CGU</Link>
+            <Link href="/confidentialite">Confidentialité</Link>
+            <a href="mailto:contact@epatehpad.fr">Contact</a>
           </div>
         </div>
       </footer>
